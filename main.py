@@ -34,12 +34,6 @@ def save(df, name):
     df.coalesce(1).write.mode("overwrite").option("header", True).csv(f"{out_dir}/{name}")
 
 
-# ---------------------------------------------------------------- Step 0: load the data
-# Declare the schemas up front (slides "Define Schema"): no inference pass over the file,
-# and the timestamp column becomes a real timestamp instead of a string.
-#
-# TODO: write the schema of listening_logs.csv as a StructType with four fields:
-#   user_id STRING, song_id STRING, timestamp TIMESTAMP, duration_sec INT
 logs_schema = StructType([
     StructField("user_id", StringType(), True),
     StructField("song_id", StringType(), True),

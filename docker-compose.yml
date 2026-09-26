@@ -14,6 +14,7 @@ x-spark: &spark
     # Input files and scripts. Mounted at the same path on every container, because in
     # standalone mode (no HDFS) each executor reads input files from its own filesystem.
     - ./shared-folder:/opt/spark/work-dir/shared
+    - ./main.py:/opt/spark/work-dir/main.py
 
 services:
 

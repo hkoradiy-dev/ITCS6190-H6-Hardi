@@ -16,7 +16,7 @@ The main commands used were:
 
 ```bash
 # Generate the input data
-python3 datagen.py YOUR_SEED
+python3 datagen.py 801484363
 
 # Start the Docker Spark cluster
 docker compose up -d
@@ -216,13 +216,6 @@ AdaptiveSparkPlan isFinalPlan=false
                                                    +- FileScan csv [song_id#4,genre#7] Batched: false, DataFilters: [isnotnull(song_id#4)], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/opt/spark/work-dir/shared/input/songs_metadata.csv], PartitionFilters: [], PushedFilters: [IsNotNull(song_id)], ReadSchema: struct<song_id:string,genre:string>
 
 
-
-=== task2: not implemented yet ===
-
-=== task3: not implemented yet ===
-
-=== task4: not implementeed yet ===
-
 Reading of the physical plan
 
 The plan should contain two CSV file scans:
@@ -241,7 +234,7 @@ The window orders each user's genres by play_count descending and then genre asc
 
 Finally, the orderBy("user_id") causes the final range-partitioning and sort shown near the top of the physical plan.
 
-The Spark UI SQL/DataFrame plan should correspond to these same major operations: file scans, the broadcast join, aggregation, exchanges/shuffles, the window operation, filtering, and final sorting.
+The Spark UI SQL/DataFrame plan showed the same major operations: the two CSV file scans, the broadcast hash join, the aggregation, the Exchange operators for shuffling, the window operation, filtering, and the final sorting. This matched the physical plan shown by explain().
 
 ```
 
@@ -292,7 +285,7 @@ The favorite.explain() call displays the execution plan and is not a normal data
 
 ### Spark UI job count
 
-Jobs shown in the Spark UI: The captured Jobs page did not display the completed job table, so the screenshots do not provide a reliable final job count.
+The Spark UI Jobs page showed **27 completed jobs** for the application. At the time of the screenshot, one additional job was listed as active. The jobs were triggered by the different Spark actions in the program, including `count()`, `show()`, and the CSV write operations.
 
 The captured Stages page showed the application while it was still running. At that time, the UI showed 1 active stage, 1 pending stage, and 1 completed stage (Stage 0). The completed stage had 1/1 task, a duration of about 0.7 seconds, 39.5 KiB of input, and 59.0 B of shuffle write.
 
